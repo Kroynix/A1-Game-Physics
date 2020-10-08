@@ -16,6 +16,8 @@ public:
 	PlayScene();
 	~PlayScene();
 
+	
+
 	// Scene LifeCycle Functions
 	virtual void draw() override;
 	virtual void update() override;
@@ -29,6 +31,7 @@ private:
 	void GUI_Function() const;
 	std::string m_guiTitle;
 	
+	float distanceLabel;
 	glm::vec2 m_mousePosition;
 
 	Target* m_pBall;
@@ -39,6 +42,9 @@ private:
 	Button* m_pBackButton;
 	Button* m_pNextButton;
 	Label* m_pInstructionsLabel;
+	Label* m_pStatsLabel;
+
+	
 
 
 

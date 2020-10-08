@@ -7,6 +7,8 @@
 #include "imgui_sdl.h"
 #include "Renderer.h"
 
+#include <string.h>
+
 PlayScene::PlayScene()
 {
 	PlayScene::start();
@@ -175,8 +177,12 @@ void PlayScene::start()
 	/* Instructions Label */
 	m_pInstructionsLabel = new Label("Press the backtick (`) character to toggle Debug View", "Consolas");
 	m_pInstructionsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 500.0f);
-
 	addChild(m_pInstructionsLabel);
+
+	
+	//m_pStatsLabel = new Label(std::to_string(PlayScene::distanceLabel), "Consolas");
+
+	
 }
 
 void PlayScene::GUI_Function() const
@@ -207,15 +213,32 @@ void PlayScene::GUI_Function() const
 	if (ImGui::SliderFloat("Speed", &Speed, 0, 500)) {}
 
 	static float Angle = 0;
-	if (ImGui::SliderFloat("Angle", &Angle, 0, 500)) {}
+	if (ImGui::SliderFloat("Angle", &Angle, 0, 90)) {}
 
 	ImGui::Separator();
 
 	float Velocity_X, Velocity_Y;
+	float distanceLabel = 454;
+	Label* m_pStatsLabel;	
 	if (ImGui::Button("Throw")) {
+		Velocity_X = Speed * cos((Angle * 3.14) / 180) * 5; // Set Pixels per metre through velocity here
+		Velocity_Y = Speed * sin((Angle * 3.14) / 180) * 5; // Set Pixels per metre through velocity here
+		distanceLabel = ((Speed * Speed) * sin(2 * (Angle * 3.14)/180)) / 9.8; // Distance Calculation
+		std::cout << "Velocity X: " << Velocity_X << std::endl;
+		std::cout << "Velocity Y: " << Velocity_Y << std::endl;
+		std::cout << "Distance: " << distanceLabel << std::endl;
+		m_pBall->throwSpeed = glm::vec2(abs(Velocity_X), -Velocity_Y);
+
+		//Ignore this
+		//m_pStatsLabel = new Label(std::to_string(PlayScene::distanceLabel), "Consolas");
+		//m_pStatsLabel->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 100.0f);
+		//addChild(m_pStatsLabel);
+
 		m_pBall->doThrow();
 	}
 	
+	ImGui::Text("Distance: ",std::to_string((distanceLabel)));
+
 	ImGui::End();
 	ImGui::EndFrame();
 

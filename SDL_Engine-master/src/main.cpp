@@ -2,6 +2,14 @@
 #ifndef __main__
 #define __main__
 
+/*
+Game Physics - GAME2005
+Nathan Nguyen & Tyler Miles
+
+"Particle" movement simulation with user giving
+Angle and Speed
+
+*/
 
 // Core Libraries
 #include <crtdbg.h>
